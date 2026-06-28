@@ -432,6 +432,26 @@ body:not(.in-game).mobile-chat-open #chat{display:none!important;}
   body.mobile-chat-open #chat-close-btn{display:flex!important;z-index:6202!important;}
 }
 
+
+/* ===== MODAL TAP FIX v13 =====
+   Style/job modals are inside #ui, while mobile controls are outside #ui.
+   Raise #ui and hide touch layers so modal cards receive taps on iPad/iPhone. */
+body.style-open #ui, body.job-open #ui{z-index:7000!important;pointer-events:auto!important;}
+body.style-open #styleboard{z-index:7100!important;pointer-events:all!important;}
+body.job-open #jobboard{z-index:7100!important;pointer-events:all!important;}
+body.style-open #styleboard-inner, body.job-open #jobboard-inner{position:relative;z-index:7101!important;pointer-events:all!important;}
+body.style-open #mobile-controls, body.job-open #mobile-controls{display:none!important;pointer-events:none!important;}
+body.style-open #look-zone, body.style-open #joy-zone, body.style-open #mobile-btns, body.style-open #mob-top,
+body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, body.job-open #mob-top{display:none!important;pointer-events:none!important;}
+@media (pointer:coarse),(max-width:900px){
+  body.style-open{cursor:auto!important;touch-action:auto!important;}
+  body.style-open #styleboard{align-items:flex-start!important;overflow:auto!important;padding:calc(env(safe-area-inset-top,0px) + 12px) 10px calc(env(safe-area-inset-bottom,0px) + 12px)!important;}
+  body.style-open #styleboard-inner{width:calc(100vw - 20px)!important;max-height:none!important;padding:18px!important;}
+  body.style-open #style-list{grid-template-columns:repeat(2,1fr)!important;gap:10px!important;}
+  body.style-open .style-card{min-height:104px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;}
+  body.style-open #jb-close{min-height:48px!important;}
+}
+
 </style>
 </head>
 <body>
@@ -1199,7 +1219,7 @@ function selectOutfit(index){
   outfitIndex=index%OUTFITS.length;
   applyOutfitToAvatar();
   broadcastAny({type:'act',pid:myPid,act:'wave',x:pos.x,y:pos.y,z:pos.z,yaw,outfitIndex,petIndex});
-  openStylePanel();
+  closeStylePanel();
 }
 function cycleOutfit(){
   outfitIndex=(outfitIndex+1)%OUTFITS.length;
@@ -1219,11 +1239,13 @@ function openStylePanel(){
     card.onclick=()=>selectOutfit(i);
     list.appendChild(card);
   });
+  document.body.classList.add('style-open');
   document.getElementById('styleboard').classList.add('show');
-  document.exitPointerLock();
+  if(document.pointerLockElement) document.exitPointerLock();
 }
 function closeStylePanel(){
   const el=document.getElementById('styleboard'); if(el) el.classList.remove('show');
+  document.body.classList.remove('style-open');
 }
 function makePet(type){
   const group=new THREE.Group();
@@ -5060,6 +5082,7 @@ function clearJobMarkers(){
 }
 
 function openJobBoard(){
+  document.body.classList.add('job-open');
   const list=document.getElementById('job-list');
   list.innerHTML='';
   JOB_TYPES.forEach(job=>{
@@ -5116,12 +5139,13 @@ function openJobBoard(){
     list.appendChild(card);
   });
   document.getElementById('jobboard').classList.add('show');
-  document.exitPointerLock();
+  if(document.pointerLockElement) document.exitPointerLock();
 }
 // (export in EXPOSE block)
 
 function closeJobBoard(){
   document.getElementById('jobboard').classList.remove('show');
+  document.body.classList.remove('job-open');
 }
 // (export in EXPOSE block)
 
