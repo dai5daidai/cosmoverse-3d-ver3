@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COSMOVERSE 3D - Debugged v2</title>
+<title>COSMOVERSE KIDS - ぼうけんパーク</title>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 
 <style>
@@ -161,9 +161,47 @@ body{background:#000;overflow:hidden;height:100vh;width:100%;font-family:'Noto S
 #style-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px;}
 #mission-panel{position:absolute;top:154px;left:14px;max-width:230px;background:rgba(5,7,20,.88);border:1px solid rgba(245,230,66,.28);border-radius:12px;padding:10px 12px;backdrop-filter:blur(12px);font-size:10px;line-height:1.55;}
 #mission-panel b{font-family:'Orbitron',monospace;color:var(--yellow);font-size:9px;letter-spacing:1px;}
+
+.mission-btn{margin-top:6px;margin-right:5px;background:rgba(245,230,66,.12);border:1px solid rgba(245,230,66,.38);border-radius:9px;padding:5px 8px;font-family:'Orbitron',monospace;font-size:8px;letter-spacing:1px;color:var(--yellow);cursor:pointer;pointer-events:all;}
+.mission-btn:hover{background:rgba(245,230,66,.22);}
+#welcome-card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:7600;width:min(420px,92vw);background:rgba(5,7,20,.97);border:1px solid rgba(245,230,66,.45);border-radius:22px;padding:24px 22px;text-align:center;box-shadow:0 0 80px rgba(245,230,66,.12);display:none;pointer-events:all;backdrop-filter:blur(14px);}
+#welcome-card.show{display:block;}
+#welcome-card h2{font-family:'Orbitron',monospace;font-size:18px;letter-spacing:3px;background:linear-gradient(90deg,var(--yellow),var(--neon),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+#welcome-card p{font-size:12px;line-height:1.75;color:rgba(255,255,255,.74);margin-bottom:14px;}
+.welcome-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.welcome-btn{border:none;border-radius:12px;padding:11px 14px;font-family:'Orbitron',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;background:linear-gradient(90deg,var(--yellow),var(--neon));color:#050714;font-weight:900;}
+.welcome-btn.sub{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--neon);font-weight:700;}
+#reward-pop{position:fixed;left:50%;top:28%;transform:translate(-50%,-50%) scale(.92);z-index:7550;background:rgba(5,7,20,.96);border:1px solid rgba(245,230,66,.6);border-radius:20px;padding:18px 24px;text-align:center;font-family:'Orbitron',monospace;color:var(--yellow);letter-spacing:2px;opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;box-shadow:0 0 60px rgba(245,230,66,.18);}
+#reward-pop.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+#reward-pop .big{font-size:32px;display:block;margin-bottom:6px;}
+#reward-pop .txt{font-size:12px;color:#fff;}
+
+/* ===== STICKER BOOK / COLLECTION v1 ===== */
+#stickerbook{position:fixed;inset:0;z-index:7200;background:rgba(5,7,20,.94);display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);pointer-events:all;}
+#stickerbook.show{display:flex;}
+#stickerbook-inner{width:min(560px,92vw);max-height:86vh;overflow:auto;background:rgba(8,12,22,.98);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:0 0 80px rgba(0,245,255,.12);}
+#stickerbook h2{font-family:'Orbitron',monospace;font-size:16px;letter-spacing:4px;margin-bottom:4px;background:linear-gradient(90deg,var(--yellow),var(--neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#stickerbook .book-sub{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:1px;color:rgba(255,255,255,.45);margin-bottom:14px;line-height:1.5;}
+#sticker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.sticker-card{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 8px;text-align:center;background:rgba(255,255,255,.04);min-height:104px;display:flex;flex-direction:column;justify-content:center;gap:5px;}
+.sticker-card.got{border-color:rgba(245,230,66,.55);background:rgba(245,230,66,.07);box-shadow:0 0 24px rgba(245,230,66,.08) inset;}
+.sticker-emoji{font-size:30px;line-height:1;filter:grayscale(1);opacity:.25;}
+.sticker-card.got .sticker-emoji{filter:none;opacity:1;}
+.sticker-name{font-size:10px;font-weight:700;color:rgba(255,255,255,.88);}
+.sticker-how{font-size:8px;line-height:1.35;color:rgba(255,255,255,.38);}
+#reward-pop.sticker{border-color:rgba(0,255,136,.75);box-shadow:0 0 80px rgba(0,255,136,.20);}
+#reward-pop .subtxt{display:block;font-size:9px;color:rgba(255,255,255,.55);margin-top:5px;letter-spacing:1px;}
+body.sticker-open #ui{z-index:7000!important;pointer-events:auto!important;}
+body.sticker-open #mobile-controls{display:none!important;pointer-events:none!important;}
+@media (pointer:coarse),(max-width:700px){#stickerbook-inner{width:calc(100vw - 20px);padding:18px;border-radius:18px;}#sticker-grid{grid-template-columns:repeat(2,1fr);} .sticker-card{min-height:96px;} }
+
+body.welcome-open #mobile-controls{display:none!important;pointer-events:none!important;}
+body.welcome-open #ui{z-index:7500!important;pointer-events:auto!important;}
 #nav-arrow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;display:none;pointer-events:none;text-align:center;font-family:'Orbitron',monospace;color:var(--yellow);text-shadow:0 0 10px #000;}
 #nav-arrow .arr{font-size:42px;line-height:1;display:block;}
 #nav-arrow .txt{font-size:10px;letter-spacing:1px;background:rgba(5,7,20,.65);padding:3px 8px;border-radius:10px;}
+#action-hint{position:absolute;left:50%;bottom:118px;transform:translateX(-50%);z-index:70;display:none;pointer-events:none;background:rgba(5,7,20,.88);border:1px solid rgba(245,230,66,.42);border-radius:18px;padding:8px 14px;font-family:'Orbitron',monospace;font-size:11px;letter-spacing:1px;color:var(--yellow);box-shadow:0 0 22px rgba(245,230,66,.1);white-space:nowrap;}
+@media (pointer:coarse),(max-width:900px){#action-hint{bottom:calc(env(safe-area-inset-bottom,0px) + 205px);font-size:10px;max-width:88vw;white-space:normal;text-align:center;}#mobile-btns{right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 116px);}}
 @media (pointer:coarse),(max-width:900px){#mission-panel{top:calc(env(safe-area-inset-top,0px) + 126px);left:8px;right:8px;max-width:none;font-size:9px;padding:8px 10px;}#nav-arrow{top:42%;}.style-card{padding:12px 8px;}}
 
 .style-card{background:rgba(255,255,255,.04);border:1px solid rgba(0,245,255,.18);border-radius:14px;padding:14px;text-align:center;cursor:pointer;transition:all .18s;}
@@ -210,10 +248,11 @@ body{background:#000;overflow:hidden;height:100vh;width:100%;font-family:'Noto S
 .mob-btn:active{background:rgba(0,245,255,.2);}
 #mob-jump{border-color:rgba(245,230,66,.5);background:rgba(5,7,20,.85);}
 #mob-jump:active{background:rgba(245,230,66,.2);}
-#mob-action{border-color:rgba(0,255,136,.5);}
-#mob-action:active{background:rgba(0,255,136,.2);}
-#mob-attack{border-color:rgba(255,0,110,.5);}
-#mob-attack:active{background:rgba(255,0,110,.2);}
+#mob-action{border-color:rgba(245,230,66,.65);background:rgba(5,7,20,.92);width:76px;height:76px;font-size:26px;box-shadow:0 0 18px rgba(245,230,66,.18);}
+#mob-action:active{background:rgba(245,230,66,.2);transform:scale(.96);}
+#mob-action .mob-action-icon{display:block;line-height:1;font-size:26px;}
+#mob-action .mob-action-label{display:block;font-family:'Orbitron',monospace;font-size:8px;letter-spacing:.5px;margin-top:2px;color:rgba(255,255,255,.86);}
+#mob-attack{display:none!important;}
 #mob-map{border-color:rgba(0,245,255,.3);}
 
 /* Mobile top buttons */
@@ -272,7 +311,7 @@ body{background:#000;overflow:hidden;height:100vh;width:100%;font-family:'Noto S
   /* Make top shortcuts into a thumb-friendly bottom action bar. */
   #mob-top{position:absolute;left:12px;right:12px;top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:grid;grid-template-columns:repeat(3,1fr);gap:7px;z-index:110;pointer-events:all;}
   .mob-top-btn{min-height:46px;padding:8px 4px;border-radius:14px;font-size:10px;line-height:1.15;text-align:center;background:rgba(5,7,20,.92);border-color:rgba(0,245,255,.35);}
-  .mob-top-btn:nth-child(6){background:rgba(0,245,255,.14);border-color:rgba(0,245,255,.65);color:#fff;}
+  .mob-top-btn:last-child{background:rgba(0,245,255,.14);border-color:rgba(0,245,255,.65);color:#fff;}
 
   /* Manual connection modal: larger text boxes and buttons on phone. */
 }
@@ -341,7 +380,7 @@ body.in-game #lobby, body.in-game #account-screen{display:none!important;}
   body.mobile-chat-open #look-zone,
   body.mobile-chat-open #joy-zone,
   body.mobile-chat-open #mobile-btns{display:none!important;pointer-events:none!important;}
-  body.mobile-chat-open #mob-top .mob-top-btn:nth-child(6){
+  body.mobile-chat-open #mob-top .mob-top-btn:last-child{
     background:rgba(0,245,255,.22)!important;
     border-color:rgba(0,245,255,.85)!important;
     color:#fff!important;
@@ -393,7 +432,7 @@ body:not(.in-game).mobile-chat-open #chat{display:none!important;}
     z-index:4500!important;
   }
   body.mobile-chat-open #mob-top .mob-top-btn{pointer-events:none!important;opacity:.35!important;}
-  body.mobile-chat-open #mob-top .mob-top-btn:nth-child(6){
+  body.mobile-chat-open #mob-top .mob-top-btn:last-child{
     pointer-events:auto!important;
     opacity:1!important;
     background:rgba(255,0,110,.24)!important;
@@ -436,22 +475,64 @@ body:not(.in-game).mobile-chat-open #chat{display:none!important;}
 /* ===== MODAL TAP FIX v13 =====
    Style/job modals are inside #ui, while mobile controls are outside #ui.
    Raise #ui and hide touch layers so modal cards receive taps on iPad/iPhone. */
-body.style-open #ui, body.job-open #ui{z-index:7000!important;pointer-events:auto!important;}
+body.style-open #ui, body.job-open #ui, body.map-open #ui{z-index:7000!important;pointer-events:auto!important;}
 body.style-open #styleboard{z-index:7100!important;pointer-events:all!important;}
 body.job-open #jobboard{z-index:7100!important;pointer-events:all!important;}
-body.style-open #styleboard-inner, body.job-open #jobboard-inner{position:relative;z-index:7101!important;pointer-events:all!important;}
-body.style-open #mobile-controls, body.job-open #mobile-controls{display:none!important;pointer-events:none!important;}
+body.map-open #fullmap{z-index:7100!important;pointer-events:all!important;}
+body.style-open #styleboard-inner, body.job-open #jobboard-inner, body.map-open #fullmap-inner{position:relative;z-index:7101!important;pointer-events:all!important;}
+body.style-open #mobile-controls, body.job-open #mobile-controls, body.map-open #mobile-controls{display:none!important;pointer-events:none!important;}
 body.style-open #look-zone, body.style-open #joy-zone, body.style-open #mobile-btns, body.style-open #mob-top,
-body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, body.job-open #mob-top{display:none!important;pointer-events:none!important;}
+body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, body.job-open #mob-top,
+body.map-open #look-zone, body.map-open #joy-zone, body.map-open #mobile-btns, body.map-open #mob-top{display:none!important;pointer-events:none!important;}
 @media (pointer:coarse),(max-width:900px){
   body.style-open{cursor:auto!important;touch-action:auto!important;}
   body.style-open #styleboard{align-items:flex-start!important;overflow:auto!important;padding:calc(env(safe-area-inset-top,0px) + 12px) 10px calc(env(safe-area-inset-bottom,0px) + 12px)!important;}
   body.style-open #styleboard-inner{width:calc(100vw - 20px)!important;max-height:none!important;padding:18px!important;}
   body.style-open #style-list{grid-template-columns:repeat(2,1fr)!important;gap:10px!important;}
   body.style-open .style-card{min-height:104px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;}
-  body.style-open #jb-close{min-height:48px!important;}
+  body.style-open #style-close-btn{min-height:48px!important;}
 }
 
+
+
+/* ===== DEBUG PATCH: mobile usability polish ===== */
+.panel-close-btn{width:100%;margin-top:14px;background:rgba(0,245,255,.08);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;color:var(--neon);cursor:pointer;transition:background .2s;}
+.panel-close-btn:hover{background:rgba(0,245,255,.18);}
+@media (pointer:coarse){
+  /* Keep the mission card from becoming a full-width black bar on iPad/tablet. */
+  #mission-panel{
+    top:calc(env(safe-area-inset-top,0px) + 116px)!important;
+    left:8px!important;
+    right:auto!important;
+    width:auto!important;
+    max-width:min(260px,46vw)!important;
+    max-height:116px!important;
+    overflow:hidden!important;
+    font-size:9px!important;
+    line-height:1.42!important;
+    padding:8px 10px!important;
+  }
+  /* Reduce duplicate controls: the bottom menu already has Map, so this side button is not needed. */
+  #mob-map{display:none!important;}
+  #mobile-btns{gap:12px!important;}
+}
+@media (pointer:coarse) and (max-width:560px){
+  #mission-panel{max-width:calc(100vw - 20px)!important;right:8px!important;}
+}
+
+
+/* ===== DEBUG PATCH: mobile emote panel ===== */
+body.emote-open #ui{z-index:7200!important;pointer-events:auto!important;}
+body.emote-open #epanel{z-index:7300!important;pointer-events:all!important;}
+@media (pointer:coarse),(max-width:900px){
+  body.emote-open #epanel{
+    display:flex!important;position:fixed!important;left:10px!important;right:10px!important;bottom:calc(env(safe-area-inset-bottom,0px) + 170px)!important;
+    width:auto!important;max-width:none!important;transform:none!important;padding:12px!important;gap:10px!important;
+  }
+  body.emote-open .em{font-size:28px!important;min-width:44px!important;min-height:44px!important;display:flex!important;align-items:center!important;justify-content:center!important;}
+}
+
+@media (pointer:coarse),(max-width:900px){#mob-action{width:78px!important;height:78px!important;border-radius:22px!important;flex-direction:column!important;}#mobile-btns{align-items:center!important;}}
 </style>
 </head>
 <body>
@@ -461,8 +542,8 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
 <!-- LOBBY -->
 <div id="lobby">
   <div class="lbox">
-    <div class="llogo">COSMOVERSE 3D</div>
-    <div class="ltag">🌍 REAL MULTIPLAYER · NO SERVER NEEDED</div>
+    <div class="llogo">COSMOVERSE KIDS</div>
+    <div class="ltag">🌍 みんなで宇宙たんけんパーク</div>
     <div class="lsec">✏️ ニックネーム</div>
     <input class="linp" id="ninp" type="text" maxlength="12" placeholder="名前を入力..." autocomplete="off">
     <div class="lsec">🏳️ 国旗</div>
@@ -533,7 +614,7 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
     <div class="stat-row">ゲームスコア <b id="prof-score">0</b></div>
     <div class="stat-row">集めた宝石 <b id="prof-gems">0</b></div>
     <div class="stat-row">残高 <b id="prof-money">¥1000</b></div>
-    <div class="stat-row">完了した仕事 <b id="prof-jobs">0</b></div>
+    <div class="stat-row">クリアしたぼうけん <b id="prof-jobs">0</b></div>
     <div class="stat-row">プレイ時間 <b id="prof-time">0分</b></div>
     <button class="acc-btn secondary" onclick="toggleProfile()" style="margin-top:16px;">閉じる</button>
     <button class="acc-btn" onclick="doLogout()" style="margin-top:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);border-radius:10px;padding:10px;font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;cursor:pointer;width:100%;">🚪 Sign Out</button>
@@ -557,23 +638,26 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
   <!-- Action buttons -->
   <div id="mobile-btns">
     <div class="mob-btn" id="mob-jump">⬆️</div>
-    <div class="mob-btn" id="mob-action">🅴</div>
-    <div class="mob-btn" id="mob-attack">👊</div>
+    <div class="mob-btn" id="mob-action"><span class="mob-action-icon">⭐</span><span class="mob-action-label">スター</span></div>
+    <div class="mob-btn" id="mob-attack">🙌</div>
     <div class="mob-btn" id="mob-map">🗺️</div>
   </div>
   <!-- Top shortcut buttons: simplified for elementary-school players -->
   <div id="mob-top">
     <div class="mob-top-btn" onclick="openJobBoard()">🎮 あそぶ</div>
-    <div class="mob-top-btn" onclick="toggleEmotes()">😊 スタンプ</div>
-    <div class="mob-top-btn" onclick="toggleCameraMode()">📷 じぶん</div>
+    <div class="mob-top-btn" onclick="toggleFullMap()">🗺️ マップ</div>
+    <div class="mob-top-btn" onclick="toggleCameraMode()">📷 視点</div>
     <div class="mob-top-btn" onclick="openStylePanel()">🎩 きがえ</div>
     <div class="mob-top-btn" onclick="cyclePet()">🐾 ペット</div>
+    <div class="mob-top-btn" onclick="toggleEmotes()">😊 スタンプ</div>
+    <div class="mob-top-btn" onclick="doPortal()">🌀 ワープ</div>
+    <div class="mob-top-btn" onclick="openStickerBook()">🎒 図鑑</div>
     <div class="mob-top-btn" onclick="toggleMobileChat(event)">💬 Chat</div>
   </div>
 </div>
 <div id="ui">
   <div id="hdr">
-    <div class="hlogo">COSMOVERSE 3D</div>
+    <div class="hlogo">COSMOVERSE KIDS</div>
     <div class="hright">
       <div id="profile-badge" onclick="toggleProfile()"><span id="hdr-avatar">👤</span><span id="hdr-username">--</span></div>
       <div class="pill" id="opill"><div class="pdot gdot"></div><span id="cnt">1</span></div>
@@ -585,13 +669,13 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
     <div id="clock-speed" onclick="cycleTimeSpeed()">⏩ x1</div>
   </div>
   <div id="job-panel" style="display:none">
-    <div class="mil">💼 仕事中</div>
-    <div class="st">職種 <b id="job-name" style="color:var(--yellow)">--</b></div>
+    <div class="mil">🧭 ぼうけん中</div>
+    <div class="st">ぼうけん <b id="job-name" style="color:var(--yellow)">--</b></div>
     <div class="st">目標 <b id="job-task">--</b></div>
-    <div class="st">報酬 <b id="job-reward">¥0</b></div>
+    <div class="st">ごほうび <b id="job-reward">¥0</b></div>
     <div class="st">進捗 <b id="job-progress">0/0</b></div>
     <div style="margin-top:6px">
-      <button onclick="quitJob()" style="background:rgba(255,0,110,.15);border:1px solid #ff006e;border-radius:6px;padding:3px 10px;font-family:'Orbitron',monospace;font-size:8px;color:#ff006e;cursor:pointer;letter-spacing:1px">辞める</button>
+      <button onclick="quitJob()" style="background:rgba(255,0,110,.15);border:1px solid #ff006e;border-radius:6px;padding:3px 10px;font-family:'Orbitron',monospace;font-size:8px;color:#ff006e;cursor:pointer;letter-spacing:1px">やめる</button>
     </div>
   </div>
   <div id="myinfo">
@@ -600,11 +684,32 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
     <div class="st">💴 残高 <b id="money">¥1000</b></div>
     <div class="st">SCORE <b id="sc">0</b></div>
     <div class="st">GEMS <b id="gm">0</b></div>
+    <div class="st">シール <b id="sticker-count">0/0</b></div>
     <div class="st">SPEED <b id="spd">1.0x</b></div>
-    <div class="st" id="weaponRow" style="display:none">AMMO <b id="ammo">∞</b></div>
+    <div class="st" id="weaponRow" style="display:none">キラキラ <b id="ammo">∞</b></div>
   </div>
-  <div id="mission-panel"><b>今日のミッション</b><br>① 宝箱を探そう<br>② ペットを連れて歩こう<br>③ 友達にスタンプを送ろう</div>
+  <div id="mission-panel"><b>今日のおすすめ</b><br>🎁 まずは宝箱を3つ見つけよう<br><button class="mission-btn" onclick="startRecommendedAdventure()">はじめる</button><button class="mission-btn" onclick="returnToPlaza()">🏠 中央へ</button><button class="mission-btn" onclick="openStickerBook()">🎒 図鑑</button></div>
   <div id="nav-arrow"><span class="arr">⬆️</span><span class="txt" id="nav-text">宝箱まで</span></div>
+  <div id="action-hint">⭐ スター</div>
+  <div id="welcome-card">
+    <h2>🌟 今日のぼうけん</h2>
+    <p>まずは、ペットといっしょに宝箱を3つ見つけよう！<br>最初の宝箱は近くにあるよ。迷ったら「中央へ」で戻れます。</p>
+    <div class="welcome-actions">
+      <button class="welcome-btn" onclick="startRecommendedAdventure()">🎁 宝さがしを始める</button>
+      <button class="welcome-btn sub" onclick="closeWelcomeCard()">あとで</button>
+      <button class="welcome-btn sub" onclick="returnToPlaza()">🏠 中央へ</button>
+    </div>
+  </div>
+  <div id="reward-pop"><span class="big">🎉</span><span class="txt" id="reward-text">クリア！</span></div>
+  <div id="stickerbook">
+    <div id="stickerbook-inner">
+      <h2>🎒 シール図鑑</h2>
+      <div class="book-sub" id="sticker-progress-text">宝箱や友だちとのあそびでシールを集めよう。</div>
+      <div id="sticker-grid"></div>
+      <button id="sticker-close-btn" class="panel-close-btn" onclick="closeStickerBook()">✕ 閉じる</button>
+    </div>
+  </div>
+
   <div id="ctrl">
     <div><span>WASD</span> 移動 / 運転</div>
     <div><span>マウス</span> 視点</div>
@@ -636,14 +741,15 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
   </div>
   <div id="bar">
     <button class="tb on" id="tbM" onclick="setTool('move')">🕹️<span class="lbl">MOVE</span></button>
-    <button class="tb" id="tbPunch" onclick="setWeapon('punch')">👊<span class="lbl">パンチ</span></button>
-    <button class="tb" id="tbGun" onclick="setWeapon('gun')">🔫<span class="lbl">ガン</span></button>
+    <button class="tb" id="tbPunch" onclick="setWeapon('punch')">🙌<span class="lbl">ハイタッチ</span></button>
+    <button class="tb" id="tbGun" onclick="setWeapon('gun')">⭐<span class="lbl">スター</span></button>
     <button class="tb" onclick="toggleEmotes()">😊<span class="lbl">EMOTE</span></button>
     <button class="tb" onclick="toggleCameraMode()">📷<span class="lbl">CAMERA</span></button>
     <button class="tb" onclick="openStylePanel()">🎩<span class="lbl">STYLE</span></button>
     <button class="tb" onclick="cyclePet()">🐾<span class="lbl">PET</span></button>
     <button class="tb" onclick="doPortal()">🌀<span class="lbl">PORTAL</span></button>
     <button class="tb" onclick="doBoost()">⚡<span class="lbl">BOOST</span></button>
+    <button class="tb" onclick="openStickerBook()">🎒<span class="lbl">BOOK</span></button>
     <button class="tb" id="music-btn" onclick="toggleMusic()">🔇<span class="lbl">MUSIC</span></button>
     <button class="tb" onclick="doLogout()" style="color:rgba(255,100,100,.6);">🚪<span class="lbl">SIGN OUT</span></button>
   </div>
@@ -673,10 +779,10 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
   </div>
   <div id="jobboard">
     <div id="jobboard-inner">
-      <h2>💼 求人ボード</h2>
-      <div class="jb-sub">仕事を選んで街で働こう！</div>
+      <h2>🧭 ぼうけんボード</h2>
+      <div class="jb-sub">今日のぼうけんを選ぼう！友だち・ペットと一緒にクリアしよう。</div>
       <div id="job-list"></div>
-      <button id="jb-close" onclick="closeJobBoard()">✕ 閉じる</button>
+      <button id="job-close-btn" class="panel-close-btn" onclick="closeJobBoard()">✕ 閉じる</button>
     </div>
   </div>
 
@@ -686,7 +792,7 @@ body.job-open #look-zone, body.job-open #joy-zone, body.job-open #mobile-btns, b
       <h2>🎩 きがえルーム</h2>
       <div class="jb-sub">好きな見た目を選ぼう！友達からも見えるようになります。</div>
       <div id="style-list"></div>
-      <button id="jb-close" onclick="closeStylePanel()">✕ 閉じる</button>
+      <button id="style-close-btn" class="panel-close-btn" onclick="closeStylePanel()">✕ 閉じる</button>
     </div>
   </div>
   <div id="xhair"></div>
@@ -1156,7 +1262,7 @@ function makeLabel(text,color='#00f5ff'){
 let myAvatar=null,myLabel=null;
 let pos=new THREE.Vector3(0,0,8),vel=new THREE.Vector3(); // start in plaza
 let yaw=0,pitch=0;
-let cameraMode='first'; // 'first' or 'third' - third shows your own avatar from behind
+let cameraMode='third'; // default: kid-friendly over-the-shoulder view; 'first' is optional
 const OUTFITS=[
   {name:'ネオンヒーロー',base:'#00f5ff',accent:'#9b44ff'},
   {name:'ファイヤー',base:'#ff006e',accent:'#f5e642'},
@@ -3317,38 +3423,146 @@ function setWeapon(w){
     xh.classList.add('gun');
     wr.style.display='flex';
     document.getElementById('ammo').textContent=gunAmmo+'/'+gunMaxAmmo;
-    notify('🔫 ガン装備！ クリックで射撃 / Rでリロード');
+    notify('⭐ スターショット！クリックでキラキラ発射 / Rでチャージ');
   } else if(w==='punch'){
     xh.classList.remove('gun');
     wr.style.display='none';
-    notify('👊 パンチ装備！ クリックでパンチ');
+    notify('🙌 ハイタッチ！クリックでアクション');
   } else {
     xh.classList.remove('gun');
     wr.style.display='none';
   }
+  updateActionButtonUI();
 }
 
-// Gun 3D model (shown in bottom-right corner of view)
+
+function updateActionButtonUI(ctx){
+  ctx=ctx||getNearestInteraction();
+  const btn=document.getElementById('mob-action');
+  const hint=document.getElementById('action-hint');
+  const icon=btn?btn.querySelector('.mob-action-icon'):null;
+  const label=btn?btn.querySelector('.mob-action-label'):null;
+  const text=ctx.label||'スター';
+  const emoji=ctx.emoji||'⭐';
+  if(icon) icon.textContent=emoji;
+  if(label) label.textContent=text;
+  if(hint){
+    if(ctx.type==='star'){
+      hint.style.display='none';
+    }else{
+      hint.style.display='block';
+      hint.textContent=emoji+' '+ctx.hint;
+    }
+  }
+}
+
+function distanceXZ(a,b){
+  const dx=a.x-b.x,dz=a.z-b.z; return Math.sqrt(dx*dx+dz*dz);
+}
+function getNearestInteraction(){
+  if(!inGame) return {type:'star',emoji:'⭐',label:'スター',hint:'スター'};
+  if(coopChests&&coopChests.length){
+    let bestC=null,bestCD=Infinity;
+    for(const c of coopChests){ if(!c.visible) continue; const d=distanceXZ(pos,c.position); if(d<bestCD){bestCD=d;bestC=c;} }
+    if(bestC&&bestCD<4.2){
+      const ready=nearbyFriendCount(bestC.position,5)>=1;
+      return {type:'coopChest',chest:bestC,emoji:'🌈',label:ready?'あける':'友だち',hint:ready?'協力宝箱を開けよう！':'友だちと2人で近づくと開くよ'};
+    }
+  }
+  if(currentJob&&jobMarkers&&jobMarkers.length){
+    let best=null,bestD=Infinity;
+    for(const m of jobMarkers){
+      const d=distanceXZ(pos,m.position);
+      if(d<bestD){bestD=d;best=m;}
+    }
+    if(best&&bestD<3.8){
+      const kind=best.userData.kind||'marker';
+      if(kind==='treasure') return {type:'marker',marker:best,emoji:'🎁',label:'あける',hint:'宝箱だよ！あけてみよう'};
+      if(kind==='star') return {type:'marker',marker:best,emoji:'⭐',label:'とる',hint:'星をゲットできるよ'};
+      return {type:'marker',marker:best,emoji:'✅',label:'チェック',hint:'目的地に到着！'};
+    }
+  }
+  let nearFriend=null,nearFriendD=Infinity;
+  for(const pid in remotePlayers){
+    const r=remotePlayers[pid]; if(!r||!r.av) continue;
+    const d=distanceXZ(pos,r.av.position);
+    if(d<nearFriendD){nearFriendD=d;nearFriend=r;}
+  }
+  if(nearFriend&&nearFriendD<4.2){
+    return {type:'friend',friend:nearFriend,emoji:'🙌',label:'ハイタッチ',hint:'友だちとハイタッチできるよ'};
+  }
+  if(!currentJob&&JOB_OFFICES){
+    let bestOffice=null,bestOfficeD=Infinity;
+    for(const jo of JOB_OFFICES){
+      const d=Math.sqrt((jo.x-pos.x)**2+(jo.z-pos.z)**2);
+      if(d<bestOfficeD){bestOfficeD=d;bestOffice=jo;}
+    }
+    if(bestOffice&&bestOfficeD<5){
+      return {type:'office',office:bestOffice,emoji:'🎮',label:'あそぶ',hint:'ぼうけんを選べるよ'};
+    }
+  }
+  if(portals3d&&portals3d.length){
+    let bestP=null,bestPD=Infinity;
+    for(const p of portals3d){
+      const d=Math.sqrt((p.x-pos.x)**2+(p.z-pos.z)**2);
+      if(d<bestPD){bestPD=d;bestP=p;}
+    }
+    if(bestP&&bestPD<3.0){
+      return {type:'portal',portal:bestP,emoji:'🌀',label:'ワープ',hint:'ワープできるよ'};
+    }
+  }
+  return {type:'star',emoji:'⭐',label:'スター',hint:'スターショット'};
+}
+function collectJobMarker(marker){
+  const idx=jobMarkers.indexOf(marker);
+  if(idx<0||!currentJob) return false;
+  const collectedKind=marker.userData.kind||'marker';
+  openMarkerFX(marker, collectedKind);
+  scene.remove(marker); jobMarkers.splice(idx,1);
+  petCelebrate();
+  jobProgress++;
+  notify('✅ '+(jobProgress)+'/'+jobTarget+' 完了！');
+  updateJobUI();
+  if(jobProgress>=jobTarget) completeJob();
+  return true;
+}
+function performUniversalAction(){
+  const ctx=getNearestInteraction();
+  updateActionButtonUI(ctx);
+  if(ctx.type==='coopChest'&&ctx.chest){ openCoopChest(ctx.chest); return; }
+  if(ctx.type==='marker'&&ctx.marker){ collectJobMarker(ctx.marker); return; }
+  if(ctx.type==='friend'){
+    doPunch();
+    notify('🙌 ハイタッチ！');
+    return;
+  }
+  if(ctx.type==='office'){
+    openJobBoard();
+    return;
+  }
+  if(ctx.type==='portal'&&ctx.portal){
+    // Walking into a portal already works; this nudges the player into it for a clear tap action.
+    pos.x=ctx.portal.x; pos.z=ctx.portal.z;
+    notify('🌀 ワープ！');
+    return;
+  }
+  // Default action: friendly star shot.
+  if(currentWeapon!=='gun') setWeapon('gun');
+  doShoot();
+}
+
+// Star wand 3D model (shown in bottom-right corner of view)
 const gunGroup=new THREE.Group();
 (()=>{
-  const gMat=new THREE.MeshStandardMaterial({color:0x222222,metalness:.8,roughness:.3});
-  const slideMat=new THREE.MeshStandardMaterial({color:0x333333,metalness:.9,roughness:.2});
-  const gripMat=new THREE.MeshStandardMaterial({color:0x443322,roughness:.7});
-  // Slide
-  const slide=new THREE.Mesh(new THREE.BoxGeometry(.12,.1,.55),slideMat);
-  slide.position.set(0,.02,0); gunGroup.add(slide);
-  // Barrel
-  const barrel=new THREE.Mesh(new THREE.CylinderGeometry(.022,.022,.65,8),gMat);
-  barrel.rotation.x=Math.PI/2; barrel.position.set(0,.01,.42); gunGroup.add(barrel);
-  // Grip
-  const grip=new THREE.Mesh(new THREE.BoxGeometry(.1,.22,.12),gripMat);
-  grip.position.set(0,-.13,-.1); gunGroup.add(grip);
-  // Trigger
-  const trigger=new THREE.Mesh(new THREE.BoxGeometry(.02,.08,.04),gMat);
-  trigger.position.set(0,-.07,.0); gunGroup.add(trigger);
-  // Sight
-  const sight=new THREE.Mesh(new THREE.BoxGeometry(.04,.04,.04),gMat);
-  sight.position.set(0,.08,.15); gunGroup.add(sight);
+  const wandMat=new THREE.MeshStandardMaterial({color:0x7a55ff,emissive:0x3322aa,emissiveIntensity:.45,metalness:.25,roughness:.35});
+  const starMat=new THREE.MeshStandardMaterial({color:0xf5e642,emissive:0xffcc00,emissiveIntensity:1.8,metalness:.18,roughness:.22});
+  const handle=new THREE.Mesh(new THREE.CylinderGeometry(.035,.045,.55,12),wandMat);
+  handle.rotation.x=Math.PI/2; handle.position.set(0,-.02,-.05); handle.castShadow=true; gunGroup.add(handle);
+  const star=new THREE.Mesh(new THREE.IcosahedronGeometry(.12,1),starMat);
+  star.position.set(0,.03,.28); star.castShadow=true; star.userData.spin=true; gunGroup.add(star);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.15,.012,8,24),starMat);
+  ring.position.set(0,.03,.28); ring.rotation.x=Math.PI/2; gunGroup.add(ring);
+  const glow=new THREE.PointLight(0xf5e642,1.2,2.5); glow.position.set(0,.03,.28); gunGroup.add(glow);
   gunGroup.userData.recoilT=0;
 })();
 gunGroup.visible=false;
@@ -3447,25 +3661,30 @@ function doPunch(){
     npc.userData.tx=npc.position.x+dir.x*6+( Math.random()-.5)*3;
     npc.userData.tz=npc.position.z+dir.z*6+(Math.random()-.5)*3;
     spawnHitFX(aim.hitPos,new THREE.Color(0xff6600));
-    notify('👊 パンチ！');
-    addChat('👊','パンチした！','#ff6600');
+    notify('🙌 ハイタッチ成功！');
+    unlockSticker('hi_touch');
+    playSfx('hit');
+    addChat('🙌','ハイタッチ成功！','#ff6600');
     if(currentJob&&currentJob.id==='police') jobPatrolHits++;
   } else if(aim.type==='player'){
     spawnHitFX(aim.hitPos,new THREE.Color(0xff4400));
-    notify('👊 ヒット！');
-    broadcastAny({type:'chat',pid:myPid,name:myFlag+myName,text:'👊 パンチ！',color:myColorStr,t:Date.now()});
+    notify('🙌 ハイタッチ成功！');
+    unlockSticker('hi_touch');
+    playSfx('hit');
+    broadcastAny({type:'chat',pid:myPid,name:myFlag+myName,text:'🙌 ハイタッチ！',color:myColorStr,t:Date.now()});
   } else {
     // Miss - whoosh effect
-    notify('💨 空振り！');
+    notify('🙌 ハイタッチ！近くの友だちに近づいてみよう');
   }
 }
 
 function doShoot(){
   if((!locked&&!isMobile)||inCar||inBus||inTrain||inSubway) return;
-  if(gunAmmo<=0){ notify('🔫 弾切れ！ R でリロード'); return; }
+  if(gunAmmo<=0){ notify('⭐ キラキラ切れ！ R でチャージ'); return; }
   if(gunCooldown>0) return;
   gunCooldown=12;
   gunAmmo--;
+  playSfx('star');
   document.getElementById('ammo').textContent=gunAmmo+'/'+gunMaxAmmo;
   gunGroup.userData.recoilT=1; // recoil animation
   if(inGame) broadcastAny({type:'act',pid:myPid,act:'shoot',x:pos.x,y:pos.y,z:pos.z,yaw});
@@ -3490,13 +3709,13 @@ function doShoot(){
     const d=npc.position.clone().sub(pos).normalize();
     npc.userData.tx=npc.position.x+d.x*5+(Math.random()-.5)*2;
     npc.userData.tz=npc.position.z+d.z*5+(Math.random()-.5)*2;
-    spawnHitFX(aim.hitPos,new THREE.Color(0xff2200));
-    notify('🎯 命中！');
+    spawnHitFX(aim.hitPos,new THREE.Color(0xf5e642));
+    notify('⭐ キラキラ命中！');
     if(currentJob&&currentJob.id==='police') jobPatrolHits++;
   } else if(aim.type==='player'){
-    spawnHitFX(aim.hitPos,new THREE.Color(0xff0000));
-    notify('🎯 プレイヤーヒット！');
-    broadcastAny({type:'chat',pid:myPid,name:myFlag+myName,text:'🔫 撃たれた！',color:myColorStr,t:Date.now()});
+    spawnHitFX(aim.hitPos,new THREE.Color(0xf5e642));
+    notify('⭐ 友だちにスターが届いた！');
+    broadcastAny({type:'chat',pid:myPid,name:myFlag+myName,text:'⭐ スターをもらった！',color:myColorStr,t:Date.now()});
   } else {
     spawnHitFX(aim.hitPos,new THREE.Color(0x888888));
   }
@@ -3506,7 +3725,7 @@ function reloadGun(){
   if(currentWeapon!=='gun') return;
   gunAmmo=gunMaxAmmo;
   document.getElementById('ammo').textContent=gunAmmo+'/'+gunMaxAmmo;
-  notify('🔄 リロード完了！ ('+gunMaxAmmo+'発)');
+  notify('🔄 スターチャージ完了！ ('+gunMaxAmmo+'こ)');
 }
 
 // Mouse click handler for weapons
@@ -4033,8 +4252,12 @@ document.addEventListener('mousemove',e=>{
 const keys={};
 document.addEventListener('keydown',e=>{
   keys[e.key]=true;
-  if(e.key===' '&&document.activeElement!==document.getElementById('cinp')){e.preventDefault();if(onGround){vel.y=8;onGround=false;}}
+  if(e.key===' '&&document.activeElement!==document.getElementById('cinp')){e.preventDefault();if(onGround){vel.y=8;onGround=false;playSfx('jump');burstFX(pos.clone().add(new THREE.Vector3(0,.3,0)),new THREE.Color(0x00f5ff));}}
   if(e.key==='Enter'&&document.activeElement===document.getElementById('cinp')) sendChat();
+  if((e.key==='e'||e.key==='E')&&document.activeElement!==document.getElementById('cinp')){
+    // E is now the same smart action as the big mobile button.
+    performUniversalAction();
+  }
   if((e.key==='c'||e.key==='C')&&document.activeElement!==document.getElementById('cinp')) toggleCameraMode();
   if(e.key==='Escape') document.exitPointerLock();
 });
@@ -4056,6 +4279,7 @@ function updatePlayer(dt){
   updateWeapons(dt);
   updateJobs(dt);
   updateBuildingEnter();
+  updateActionButtonUI();
   if(inCar||inTrain||inSubway||inBus||inBuilding) return; // skip foot movement when in vehicle
 
   const spd=boostT>0?.4:.18;
@@ -4536,17 +4760,170 @@ function enterWorld(){
   inGame=true;
   document.getElementById('myname').textContent=myFlag+myName;
   initMyPlayer();
+  loadStickers();
   setupMobileControls();
-  notify('🌍 COSMOVERSE 3D へようこそ！');
+  notify('🌍 COSMOVERSE KIDSへようこそ！');
+  setTimeout(showWelcomeCard,700);
+  setTimeout(()=>notify('🎁 まずは宝箱を見つけよう！'),1400);
+  setTimeout(()=>notify('📷 最初は自分が見える視点だよ。右側をスワイプして見回そう！'),2600);
+  setTimeout(()=>notify('🗺️ 迷ったらマップ、見え方は「視点」で切り替え！'),4800);
   setTimeout(startMusic, 800);
   if(!isMobile) notify('画面クリックでマウスロック → 視点操作');
-  addChat('🌍 SYSTEM','ワールドへ接続しました','#00f5ff');
+  addChat('🌍 SYSTEM','ぼうけんパークへ接続しました','#00f5ff');
 }
 
 window.addEventListener('beforeunload',()=>{
   try{ broadcastAny({type:'leave',pid:myPid}); }catch(e){}
   try{ roomChannel && roomChannel.untrack(); }catch(e){}
 });
+
+
+
+// =================== STICKER BOOK / REWARD COLLECTION ===================
+const STICKERS=[
+  {id:'first_treasure',emoji:'🎁',name:'はじめて宝箱',how:'宝箱を1こ開ける'},
+  {id:'star_spark',emoji:'⭐',name:'きらきら星',how:'スターを集める'},
+  {id:'pet_smile',emoji:'🐾',name:'ペットにっこり',how:'ペットと宝箱を見つける'},
+  {id:'hi_touch',emoji:'🙌',name:'ハイタッチ',how:'友だちとハイタッチ'},
+  {id:'rainbow_chest',emoji:'🌈',name:'協力宝箱',how:'友だちと虹の宝箱を開ける'},
+  {id:'treasure_master',emoji:'👑',name:'宝さがし名人',how:'宝さがしをクリア'},
+  {id:'speed_star',emoji:'🏁',name:'スターランナー',how:'スターランをクリア'},
+  {id:'cosmo_friend',emoji:'💬',name:'友だちサイン',how:'スタンプぼうけんをクリア'},
+  {id:'plaza_return',emoji:'🏠',name:'中央広場',how:'中央へ戻る'},
+  {id:'pet_walk',emoji:'🐶',name:'おさんぽ名人',how:'ペットのおさんぽをクリア'},
+  {id:'rare_gold',emoji:'🏆',name:'金ぴか宝物',how:'宝箱からたまに出る'},
+  {id:'cosmo_legend',emoji:'🚀',name:'コスモレジェンド',how:'シールをたくさん集める'}
+];
+let ownedStickers=new Set();
+function stickerKey(){return 'cosmoverse_stickers_'+(myName||'guest');}
+function loadStickers(){
+  try{ownedStickers=new Set(JSON.parse(localStorage.getItem(stickerKey())||'[]'));}catch(e){ownedStickers=new Set();}
+  updateStickerCount();
+}
+function saveStickers(){try{localStorage.setItem(stickerKey(),JSON.stringify([...ownedStickers]));}catch(e){}}
+function updateStickerCount(){
+  const el=document.getElementById('sticker-count'); if(el) el.textContent=ownedStickers.size+'/'+STICKERS.length;
+  const pr=document.getElementById('sticker-progress-text'); if(pr) pr.textContent='あつめたシール '+ownedStickers.size+'/'+STICKERS.length+'。宝箱・友だち・ペットで増えるよ。';
+}
+function unlockSticker(id,quiet=false){
+  const st=STICKERS.find(s=>s.id===id); if(!st) return false;
+  if(ownedStickers.has(id)) return false;
+  ownedStickers.add(id); saveStickers(); updateStickerCount();
+  if(!quiet){
+    showReward(st.emoji+' シールGET！',st.name);
+    playSfx('clear');
+    notify(st.emoji+' シール図鑑に「'+st.name+'」を追加！');
+  }
+  if(ownedStickers.size>=8) unlockSticker('cosmo_legend',true);
+  renderStickerBook();
+  return true;
+}
+function renderStickerBook(){
+  const grid=document.getElementById('sticker-grid'); if(!grid) return;
+  grid.innerHTML='';
+  STICKERS.forEach(st=>{
+    const got=ownedStickers.has(st.id);
+    const card=document.createElement('div'); card.className='sticker-card'+(got?' got':'');
+    const e=document.createElement('div'); e.className='sticker-emoji'; e.textContent=got?st.emoji:'？';
+    const n=document.createElement('div'); n.className='sticker-name'; n.textContent=got?st.name:'???';
+    const h=document.createElement('div'); h.className='sticker-how'; h.textContent=st.how;
+    card.appendChild(e); card.appendChild(n); card.appendChild(h); grid.appendChild(card);
+  });
+  updateStickerCount();
+}
+function openStickerBook(){
+  renderStickerBook();
+  document.body.classList.add('sticker-open');
+  const el=document.getElementById('stickerbook'); if(el) el.classList.add('show');
+  if(document.pointerLockElement) document.exitPointerLock();
+}
+function closeStickerBook(){
+  const el=document.getElementById('stickerbook'); if(el) el.classList.remove('show');
+  document.body.classList.remove('sticker-open');
+}
+
+// =================== FIRST 30 SECONDS / REWARD POLISH ===================
+function showWelcomeCard(){
+  if(!inGame) return;
+  const c=document.getElementById('welcome-card');
+  if(!c) return;
+  document.body.classList.add('welcome-open');
+  c.classList.add('show');
+  if(document.pointerLockElement) document.exitPointerLock();
+}
+function closeWelcomeCard(){
+  const c=document.getElementById('welcome-card');
+  if(c) c.classList.remove('show');
+  document.body.classList.remove('welcome-open');
+}
+function startRecommendedAdventure(){
+  closeWelcomeCard();
+  if(currentJob){ notify('🧭 いまのぼうけんをクリアしてから選ぼう！'); return; }
+  const job=JOB_TYPES.find(j=>j.id==='treasure');
+  if(job) startJob(job);
+}
+function returnToPlaza(){
+  closeWelcomeCard();
+  pos.set(0,0,0);
+  vel.set(0,0,0);
+  yaw=0; pitch=0;
+  burstFX(pos.clone().add(new THREE.Vector3(0,1,0)),new THREE.Color(0x00f5ff));
+  notify('🏠 中央広場にもどったよ');
+  unlockSticker('plaza_return',true);
+  playSfx('warp');
+}
+function showReward(text,subtext=''){
+  const pop=document.getElementById('reward-pop');
+  const tx=document.getElementById('reward-text');
+  if(!pop||!tx) return;
+  tx.innerHTML='';
+  const main=document.createElement('span'); main.textContent=text; tx.appendChild(main);
+  if(subtext){ const sub=document.createElement('span'); sub.className='subtxt'; sub.textContent=subtext; tx.appendChild(sub); pop.classList.add('sticker'); } else { pop.classList.remove('sticker'); }
+  pop.classList.add('show');
+  setTimeout(()=>{pop.classList.remove('show');pop.classList.remove('sticker');},2800);
+}
+function openMarkerFX(marker, kind){
+  const p=marker.position.clone().add(new THREE.Vector3(0,1.1,0));
+  if(kind==='treasure'){
+    showReward('🎁 宝箱を開けた！','シールやコインが飛び出した！');
+    unlockSticker('first_treasure',true);
+    unlockSticker('pet_smile',true);
+    if(Math.random()<0.18) unlockSticker('rare_gold');
+    playSfx('treasure');
+    for(let i=0;i<3;i++) setTimeout(()=>burstFX(p.clone().add(new THREE.Vector3((Math.random()-.5)*.8,.2,(Math.random()-.5)*.8)),new THREE.Color(0xf5e642)),i*90);
+  }else if(kind==='star'){
+    unlockSticker('star_spark',true);
+    playSfx('star');
+    burstFX(p,new THREE.Color(0x00f5ff));
+  }else{
+    playSfx('pickup');
+    burstFX(p,new THREE.Color(0x00ff88));
+  }
+}
+function playSfx(type){
+  try{
+    initAudio();
+    if(audioCtx&&audioCtx.state==='suspended') audioCtx.resume();
+    if(!audioCtx||!masterGain) return;
+    const now=audioCtx.currentTime;
+    const g=audioCtx.createGain();
+    g.connect(masterGain);
+    g.gain.setValueAtTime(0.0001,now);
+    g.gain.exponentialRampToValueAtTime(type==='clear'?0.35:0.22,now+0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001,now+(type==='clear'?0.9:0.28));
+    const osc=audioCtx.createOscillator();
+    osc.type=(type==='warp'||type==='clear')?'triangle':'sine';
+    const base={jump:520,treasure:660,star:880,hit:440,pickup:720,warp:330,clear:523}[type]||640;
+    osc.frequency.setValueAtTime(base,now);
+    if(type==='treasure'||type==='pickup') osc.frequency.exponentialRampToValueAtTime(base*1.55,now+.18);
+    if(type==='star') osc.frequency.exponentialRampToValueAtTime(base*1.25,now+.16);
+    if(type==='jump') osc.frequency.exponentialRampToValueAtTime(base*.72,now+.18);
+    if(type==='clear'){
+      [523,659,784].forEach((f,i)=>playNote(f,now+i*.09,.28,'triangle',.08));
+    }
+    osc.connect(g); osc.start(now); osc.stop(now+(type==='clear'?0.7:0.35));
+  }catch(e){}
+}
 
 // =================== TOOLS ===================
 let tool='move';
@@ -4561,7 +4938,12 @@ function doPortal(){
   const dest=PORTAL_DESTINATIONS[di];
   notify('🌀 ポータル出現！→ '+dest.name);
 }
-function toggleEmotes(){document.getElementById('epanel').classList.toggle('show');}
+function toggleEmotes(){
+  const p=document.getElementById('epanel');
+  if(!p) return;
+  p.classList.toggle('show');
+  document.body.classList.toggle('emote-open', p.classList.contains('show'));
+}
 
 document.querySelectorAll('.em').forEach(el=>{
   el.onclick=()=>{
@@ -4570,6 +4952,7 @@ document.querySelectorAll('.em').forEach(el=>{
     if(e==='👋') broadcastAny({type:'act',pid:myPid,act:'wave',x:pos.x,y:pos.y,z:pos.z,yaw});
     burstFX(pos.clone(),new THREE.Color(0xffffff));
     document.getElementById('epanel').classList.remove('show');
+    document.body.classList.remove('emote-open');
     notify(e);
   };
 });
@@ -4657,6 +5040,7 @@ let fullMapOpen=false;
 function toggleFullMap(){
   fullMapOpen=!fullMapOpen;
   document.getElementById('fullmap').classList.toggle('show',fullMapOpen);
+  document.body.classList.toggle('map-open',fullMapOpen);
 }
 window.toggleFullMap=toggleFullMap;
 
@@ -4932,64 +5316,51 @@ function updateGameTime(dt){
 
 const JOB_TYPES = [
   {
-    id:'taxi', name:'🚕 タクシー運転手', pay:800,
-    desc:'乗客をピックアップして目的地まで送り届ける。 車に乗って「緑のマーカー」を目指そう！',
-    color:'#ffcc00', tag:'🚗 車必須', tag2:'💰 高収入',
-    tagCol:'#ffcc00', tagCol2:'#00ff88',
-    tasks:['乗客を拾う','目的地まで届ける']
-  },
-  {
-    id:'delivery', name:'📦 配達員', pay:400,
-    desc:'荷物を市内の各家庭へ配達する。 徒歩でも車でもOK！',
-    color:'#ff9900', tag:'🚶 徒歩OK', tag2:'📦 x5 配達',
-    tagCol:'#ff9900', tagCol2:'#aaaaaa',
-    tasks:['荷物を受け取る','配達先へ届ける']
-  },
-  {
-    id:'police', name:'👮 警察官', pay:600,
-    desc:'街をパトロールして犯罪者NPCを捕まえる。 パンチか銃で5人倒せ！',
-    color:'#4488ff', tag:'👊 戦闘あり', tag2:'🚔 パトロール',
-    tagCol:'#4488ff', tagCol2:'#8888ff',
-    tasks:['犯罪者を5人倒す']
-  },
-  {
-    id:'guide', name:'🗺️ 観光ガイド', pay:350,
-    desc:'観光スポット（地下鉄駅）を3つ案内して回る。 地下鉄を使って移動しよう！',
-    color:'#00ff88', tag:'🚇 地下鉄使用', tag2:'📍 x3 案内',
-    tagCol:'#00ff88', tagCol2:'#00ccff',
-    tasks:['観光スポットを3つ巡る']
-  },
-  {
-    id:'vendor', name:'🍜 屋台店員', pay:300,
-    desc:'中央広場の屋台で料理を提供する。 広場付近をウロウロしてNPCにサービス！',
-    color:'#ff6644', tag:'🏃 広場勤務', tag2:'😊 接客',
-    tagCol:'#ff6644', tagCol2:'#ffaaaa',
-    tasks:['NPCに10回サービス']
-  },
-  {
-    id:'treasure', name:'🧭 宝探しチャレンジ', pay:700,
-    desc:'地図に出るキラキラマーカーを6つ見つけよう！友達と一緒に探すと早いよ。',
-    color:'#f5e642', tag:'🧭 探検', tag2:'🎁 宝箱 x6',
+    id:'treasure', name:'🎁 宝さがし', pay:700,
+    desc:'宇宙の街にかくれた宝箱を6こ見つけよう！ペットが近くでよろこぶよ。',
+    color:'#f5e642', tag:'🧭 たんけん', tag2:'🎁 宝箱 x6',
     tagCol:'#f5e642', tagCol2:'#00f5ff',
-    tasks:['宝箱マーカーを6つ見つける']
+    tasks:['宝箱を6こ見つける']
   },
   {
-    id:'race', name:'🏁 ミニゲーム：スターラン', pay:500,
-    desc:'街に出る星マーカーを順番に集める短いレース。ジャンプと移動の練習にもなる！',
+    id:'race', name:'🏁 スターラン', pay:500,
+    desc:'60秒以内に星を8こ集めよう！ジャンプと移動の練習にもなる短いミニゲーム。',
     color:'#00f5ff', tag:'🏃 レース', tag2:'⭐ x8',
     tagCol:'#00f5ff', tagCol2:'#f5e642',
-    tasks:['星マーカーを8つ集める']
+    tasks:['星を8こ集める']
   },
   {
-    id:'collector', name:'💎 資源回収員', pay:250,
-    desc:'街中の宝石とコインを集めまくる！ 20個集めたら報酬ゲット。',
+    id:'petwalk', name:'🐾 ペットのおさんぽ', pay:450,
+    desc:'ペットと一緒に3つのチェックポイントをめぐろう。ペットがジャンプして応援してくれるよ。',
+    color:'#00ff88', tag:'🐾 ペット', tag2:'📍 x3',
+    tagCol:'#00ff88', tagCol2:'#00ccff',
+    tasks:['チェックポイントを3つめぐる']
+  },
+  {
+    id:'friend', name:'💬 友だちスタンプ', pay:300,
+    desc:'友だちにスタンプを3回送ろう。「ありがとう」「すごい！」で一緒に盛り上がろう。',
+    color:'#ff66aa', tag:'🤝 友だち', tag2:'💬 x3',
+    tagCol:'#ff66aa', tagCol2:'#f5e642',
+    tasks:['スタンプを3回送る']
+  },
+  {
+    id:'guide', name:'🗺️ たんけんガイド', pay:350,
+    desc:'宇宙ステーションの名所を3つめぐろう。マップを見ながら行くと迷いにくいよ。',
+    color:'#00ff88', tag:'🗺️ マップ', tag2:'📍 x3',
+    tagCol:'#00ff88', tagCol2:'#00ccff',
+    tasks:['名所を3つめぐる']
+  },
+  {
+    id:'collector', name:'💎 キラキラ集め', pay:250,
+    desc:'街中の宝石とコインを20こ集めよう。集めた分だけスコアも上がるよ。',
     color:'#cc44ff', tag:'💎 収集', tag2:'⭐ x20',
     tagCol:'#cc44ff', tagCol2:'#ffaaff',
-    tasks:['宝石・コインを20個集める']
-  },
+    tasks:['宝石・コインを20こ集める']
+  }
 ];
 
 let currentJob=null;
+let lastActionHintAt=0; // throttle smart-action hints
 let jobProgress=0;
 let jobTarget=0;
 let jobMarkers=[];      // THREE.Mesh markers in world
@@ -4998,12 +5369,13 @@ let jobServiced=0;      // for vendor
 let jobPatrolHits=0;    // for police
 let jobTimeLeft=0;      // for timed mini games
 let petHappyT=0;        // pet celebrates after collecting items
+let lastPetHintAt=0;     // throttles pet hint notifications
 
-// Job board markers in world (ハローワーク3か所)
+// Adventure board markers in world (ぼうけんボード3か所)
 const JOB_OFFICES=[
-  {x:5,z:-15,  name:'中央ハローワーク'},
-  {x:80,z:80,  name:'東ハローワーク'},
-  {x:-80,z:-80,name:'西ハローワーク'},
+  {x:5,z:-15,  name:'中央ぼうけんボード'},
+  {x:80,z:80,  name:'東ぼうけんボード'},
+  {x:-80,z:-80,name:'西ぼうけんボード'},
 ];
 (()=>{
   const boardMat=new THREE.MeshStandardMaterial({color:0xffcc00,emissive:0xffaa00,emissiveIntensity:.4});
@@ -5013,9 +5385,9 @@ const JOB_OFFICES=[
     pole.position.set(jo.x,2,jo.z); scene.add(pole);
     const board=new THREE.Mesh(new THREE.BoxGeometry(2.2,.9,.08),boardMat);
     board.position.set(jo.x,4.4,jo.z); scene.add(board);
-    const lbl=makeLabel('💼 '+jo.name,'#ffcc00');
+    const lbl=makeLabel('🧭 '+jo.name,'#ffcc00');
     lbl.scale.set(2,.6,1); lbl.position.set(jo.x,5.5,jo.z); scene.add(lbl);
-    const entLbl=makeLabel('E で求人を見る','#ffcc00');
+    const entLbl=makeLabel('E でぼうけんを見る','#ffcc00');
     entLbl.position.set(jo.x,2.5,jo.z); entLbl.visible=false;
     entLbl.userData.jobOffice=true; scene.add(entLbl);
     jo.entLbl=entLbl;
@@ -5033,6 +5405,52 @@ const JOB_OFFICES=[
   const entLbl=makeLabel('E でミニゲーム','#00f5ff'); entLbl.position.set(18,2.15,-18); entLbl.visible=false; scene.add(entLbl);
   JOB_OFFICES.push({x:18,z:-18,name:'ミニゲーム広場',entLbl});
 })();
+
+
+// Cooperation chests: realtime makes this more than a solo playground.
+const coopChests=[];
+function makeCoopChest(x,z,label='🌈 協力宝箱'){
+  const g=new THREE.Group();
+  const body=new THREE.Mesh(new THREE.BoxGeometry(1.65,.65,1.05),new THREE.MeshStandardMaterial({color:0x7a3cff,emissive:0x221166,emissiveIntensity:.35,roughness:.38}));
+  body.position.y=.42; body.castShadow=true; g.add(body);
+  const lid=new THREE.Mesh(new THREE.BoxGeometry(1.75,.3,1.12),new THREE.MeshStandardMaterial({color:0xffcc00,emissive:0xffaa00,emissiveIntensity:.55,metalness:.35,roughness:.25}));
+  lid.position.y=.9; lid.castShadow=true; g.add(lid);
+  const aura=new THREE.Mesh(new THREE.TorusGeometry(1.55,.08,8,48),new THREE.MeshStandardMaterial({color:0xff66ff,emissive:0xff66ff,emissiveIntensity:1.2,transparent:true,opacity:.72}));
+  aura.rotation.x=Math.PI/2; aura.position.y=.12; aura.userData.spin=true; g.add(aura);
+  const lbl=makeLabel(label,'#ffccff'); lbl.position.set(0,1.95,0); lbl.scale.set(1.9,.5,1); lbl.userData.faceCamera=true; g.add(lbl);
+  const light=new THREE.PointLight(0xff66ff,1.2,10); light.position.y=2; g.add(light);
+  g.position.set(x,0,z); g.userData.coopChest=true; g.userData.opened=false; g.userData.label=lbl;
+  scene.add(g); coopChests.push(g); return g;
+}
+makeCoopChest(-10,-12);
+makeCoopChest(42,18);
+function nearbyFriendCount(center,radius=5){
+  let n=0;
+  for(const pid in remotePlayers){
+    const rp=remotePlayers[pid];
+    if(rp&&rp.av&&distanceXZ(center,rp.av.position)<radius) n++;
+  }
+  return n;
+}
+function openCoopChest(chest){
+  if(!chest||chest.userData.opened) return;
+  const friends=nearbyFriendCount(chest.position,5);
+  if(friends<1){
+    notify('🌈 友だちと2人で近づくと開くよ！');
+    petCelebrate();
+    return;
+  }
+  chest.userData.opened=true;
+  chest.visible=false;
+  updateMoney(300);
+  myScore+=50; document.getElementById('sc').textContent=Math.floor(myScore);
+  showReward('🌈 協力宝箱オープン！','友だちと一緒にシールGET');
+  unlockSticker('rainbow_chest');
+  playSfx('clear');
+  burstFX(chest.position.clone().add(new THREE.Vector3(0,1,0)),new THREE.Color(0xff66ff));
+  broadcastAny({type:'chat',pid:myPid,name:'🌈 SYSTEM',text:(myName||'Player')+'が協力宝箱を開けた！',color:'#ff66ff',t:Date.now()});
+  setTimeout(()=>{ if(chest){ chest.visible=true; chest.userData.opened=false; } },45000);
+}
 
 function spawnJobMarker(x,z,color=0x00ff88,kind='marker'){
   const g=new THREE.Group();
@@ -5119,7 +5537,7 @@ function openJobBoard(){
       card.appendChild(top);card.appendChild(desc);card.appendChild(tags);
       // Select button
       const btn=document.createElement('button');
-      btn.textContent=currentJob?'現在の仕事を完了後に選択':'この仕事を始める →';
+      btn.textContent=currentJob?'今のぼうけんをクリア後に選べるよ':'このぼうけんを始める →';
       btn.style.cssText='margin-top:10px;width:100%;padding:8px;background:'+(currentJob?'rgba(255,255,255,.05)':'rgba(0,245,255,.12)')+';border:1px solid '+(currentJob?'rgba(255,255,255,.15)':'rgba(0,245,255,.4)')+';border-radius:8px;font-family:Orbitron,monospace;font-size:9px;letter-spacing:1px;color:'+(currentJob?'rgba(255,255,255,.3)':'#00f5ff')+';cursor:'+(currentJob?'not-allowed':'pointer')+';';
       if(!currentJob){
         const jid=job.id;
@@ -5155,43 +5573,34 @@ function startJob(job){
   clearJobMarkers();
 
   // Setup per-job
-  if(job.id==='taxi'){
-    jobTarget=1;
-    // Spawn passenger pickup point
-    const px=(Math.random()-.5)*(WORLD-20);
-    const pz=(Math.random()-.5)*(WORLD-20);
-    spawnJobMarker(px,pz,0xffcc00);
-    notify('🚕 乗客を黄色マーカーまで迎えに行こう！');
-  } else if(job.id==='delivery'){
-    jobTarget=5;
-    // 5 delivery points
-    for(let i=0;i<5;i++){
-      const px=(Math.random()-.5)*(WORLD-20);
-      const pz=(Math.random()-.5)*(WORLD-20);
-      spawnJobMarker(px,pz,0xff9900);
-    }
-    notify('📦 オレンジのマーカーへ荷物を届けよう！');
-  } else if(job.id==='police'){
-    jobTarget=5;
-    notify('👮 パンチか銃でNPCを5人倒そう！');
+  if(job.id==='petwalk'){
+    jobTarget=3;
+    const spots=[{x:18,z:-18},{x:-25,z:18},{x:35,z:28}];
+    spots.forEach(sp=>spawnJobMarker(sp.x,sp.z,0x00ff88));
+    notify('🐾 ペットのおさんぽ開始！緑のチェックポイントを3つめぐろう！');
+  } else if(job.id==='friend'){
+    jobTarget=3;
+    notify('💬 友だちスタンプ開始！下のスタンプから3回送ろう！');
   } else if(job.id==='guide'){
     jobTarget=3;
     // Mark 3 subway stations
     const stations=SUBWAY_STATIONS.slice(0,3);
     stations.forEach(st=>spawnJobMarker(st.x,st.z,0x00ff88));
-    notify('🗺️ 緑マーカーの観光スポットを3つ巡ろう！');
+    notify('🗺️ 緑マーカーの名所を3つめぐろう！');
   } else if(job.id==='vendor'){
     jobTarget=10;
     spawnJobMarker(2,2,0xff6644);
-    notify('🍜 広場（赤マーカー）付近でNPCを10人もてなそう！');
+    notify('😊 広場でみんなにあいさつしよう！');
   } else if(job.id==='treasure'){
     jobTarget=6;
-    for(let i=0;i<6;i++){
+    // First treasure is intentionally close: the first 30 seconds should create a quick success.
+    spawnJobMarker(pos.x+Math.sin(yaw)*7, pos.z+Math.cos(yaw)*7, 0xf5e642,'treasure');
+    for(let i=1;i<6;i++){
       const px=(Math.random()-.5)*(WORLD-20);
       const pz=(Math.random()-.5)*(WORLD-20);
       spawnJobMarker(px,pz,0xf5e642,'treasure');
     }
-    notify('🧭 宝探しスタート！本物の宝箱を6つ見つけよう！');
+    notify('🎁 宝さがしスタート！まずは近くの宝箱を見つけよう！');
   } else if(job.id==='race'){
     jobTarget=8; jobTimeLeft=60;
     for(let i=0;i<8;i++){
@@ -5199,15 +5608,15 @@ function startJob(job){
       const r=25+i*6;
       spawnJobMarker(Math.cos(angle)*r,Math.sin(angle)*r,0x00f5ff,'star');
     }
-    notify('🏁 スターラン開始！星を8つ集めよう！');
+    notify('🏁 スターラン開始！60秒以内に星を8こ集めよう！');
   } else if(job.id==='collector'){
     jobTarget=20;
-    notify('💎 宝石・コインを20個集めよう！');
+    notify('💎 キラキラを20こ集めよう！');
   }
 
   updateJobUI();
   closeJobBoard();
-  addChat('💼 SYSTEM','「'+job.name+'」を開始！','#ffcc00');
+  addChat('🧭 SYSTEM','「'+job.name+'」を開始！','#ffcc00');
 }
 
 function quitJob(){
@@ -5216,7 +5625,7 @@ function quitJob(){
   currentJob=null;
   jobProgress=0;
   document.getElementById('job-panel').style.display='none';
-  notify('🚪 仕事を辞めました');
+  notify('🚪 ぼうけんをやめました');
 }
 // (export in EXPOSE block)
 
@@ -5228,9 +5637,15 @@ function completeJob(){
   clearJobMarkers();
   currentJob=null; jobProgress=0;
   updateMoney(reward);
-  addChat('💼 SYSTEM','「'+jobName+'」完了！ +¥'+reward.toLocaleString(),'#ffcc00');
-  notify('🎉 仕事完了！ +¥'+reward.toLocaleString());
+  addChat('🧭 SYSTEM','「'+jobName+'」クリア！ +¥'+reward.toLocaleString(),'#ffcc00');
+  notify('🎉 ぼうけんクリア！ ごほうび +¥'+reward.toLocaleString());
+  showReward('🎉 '+jobName+' クリア！ +¥'+reward.toLocaleString());
+  playSfx('clear');
   celebrateClear();
+  if(jobName.includes('宝さがし')) unlockSticker('treasure_master');
+  if(jobName.includes('スターラン')) unlockSticker('speed_star');
+  if(jobName.includes('友だち')) unlockSticker('cosmo_friend');
+  if(jobName.includes('ペット')) unlockSticker('pet_walk');
   document.getElementById('job-panel').style.display='none';
   myScore+=reward/10;
   document.getElementById('sc').textContent=Math.floor(myScore);
@@ -5263,6 +5678,11 @@ function updateJobNavigation(){
   nav.querySelector('.arr').style.transform='rotate('+rel+'rad)';
   const label=currentJob.id==='treasure'?'宝箱':(currentJob.id==='race'?'星':'目的地');
   txt.textContent=label+'まで '+Math.round(best)+'m';
+  if((currentJob.id==='treasure'||currentJob.id==='race')&&best<18&&Date.now()-lastPetHintAt>9000){
+    lastPetHintAt=Date.now();
+    notify('🐾 ペットが'+label+'の気配を感じているよ！');
+    petCelebrate();
+  }
 }
 function updateJobs(dt){
   // Show/hide job office prompts
@@ -5292,6 +5712,13 @@ function updateJobs(dt){
     updateJobUI();
   }
 
+  // Animate cooperation chests
+  for(const c of coopChests){
+    if(!c.visible) continue;
+    c.children.forEach(ch=>{ if(ch.userData.spin) ch.rotation.z+=dt*1.2; if(ch.userData.faceCamera) ch.lookAt(camera.position); });
+    c.position.y=Math.sin(performance.now()*0.001+c.position.x)*.06;
+  }
+
   // Animate markers
   for(const m of jobMarkers){
     m.userData.t=(m.userData.t||0)+dt*2;
@@ -5307,33 +5734,22 @@ function updateJobs(dt){
     const dx=m.position.x-pos.x, dz=m.position.z-pos.z;
     const dist=Math.sqrt(dx*dx+dz*dz);
     if(dist<3){
-      scene.remove(m); jobMarkers.splice(i,1);
-      petCelebrate();
-      if(!currentJob) break;
-      if(currentJob.id==='taxi'){
-        if(jobProgress===0){
-          // Picked up passenger - now go to drop-off
-          jobProgress=1;
-          const dpx=(Math.random()-.5)*(WORLD-20);
-          const dpz=(Math.random()-.5)*(WORLD-20);
-          spawnJobMarker(dpx,dpz,0x00ff88);
-          notify('🚕 乗客乗車！目的地（緑マーカー）へ！');
-          document.getElementById('job-task').textContent='目的地まで送り届ける';
-        } else {
-          jobProgress=jobTarget;
+      const collectedKind=m.userData.kind||'marker';
+      // Treasure boxes are now opened with the smart action button / E key so kids learn one clear action.
+      if(collectedKind==='treasure'){
+        if(Date.now()-lastActionHintAt>1800){
+          lastActionHintAt=Date.now();
+          notify('🎁 近くに宝箱！右下の「あける」かEキーで開けよう');
         }
-      } else {
-        jobProgress++;
-        notify('✅ '+(jobProgress)+'/'+jobTarget+' 完了！');
+        continue;
       }
-      updateJobUI();
-      if(jobProgress>=jobTarget) completeJob();
+      collectJobMarker(m);
     }
   }
 
   if(!currentJob) return;
 
-  // Police: count punch/gun hits on NPCs
+  // Star action: count high-five/star hits on NPCs
   if(!currentJob) return;
   if(currentJob.id==='police'&&jobPatrolHits>jobProgress){
     jobProgress=Math.min(jobPatrolHits,jobTarget);
@@ -5343,7 +5759,7 @@ function updateJobs(dt){
 
   if(!currentJob) return;
 
-  // Vendor: count nearby NPCs in plaza
+  // Greeting mission: count nearby NPCs in plaza
   if(!currentJob) return;
   if(currentJob.id==='vendor'){
     let nearNPCs=0;
@@ -5497,8 +5913,7 @@ function setupMobileControls(){
   },{passive:false});
   document.getElementById('mob-action').addEventListener('touchstart',e=>{
     e.preventDefault();
-    // E key equivalent - try enter/exit everything
-    keys['e']=true; setTimeout(()=>keys['e']=false,200);
+    performUniversalAction();
   },{passive:false});
   document.getElementById('mob-attack').addEventListener('touchstart',e=>{
     e.preventDefault();
@@ -5516,6 +5931,8 @@ function mobileJump(ev){
   if(!inGame) return;
   if(onGround){
     vel.y=8; onGround=false;
+    playSfx('jump');
+    burstFX(pos.clone().add(new THREE.Vector3(0,.3,0)),new THREE.Color(0x00f5ff));
     broadcastAny({type:'act',pid:myPid,act:'jump',x:pos.x,y:pos.y,z:pos.z,yaw});
   }else{
     // Still send a small visible cue so other players see the attempt.
@@ -5979,6 +6396,9 @@ document.getElementById('login-name').addEventListener('keydown',e=>{ if(e.key==
 window.enterWorld   = enterWorld;
 window.toggleMusic  = toggleMusic;
 window.setWeapon    = setWeapon;
+window.performUniversalAction = performUniversalAction;
+window.openStickerBook=openStickerBook; window.closeStickerBook=closeStickerBook;
+
 window.startJob     = startJob;
 window.openJobBoard = openJobBoard;
 window.closeJobBoard= closeJobBoard;
@@ -5993,6 +6413,12 @@ function sendStamp(text){
   addChat(myName,msg,myColorStr);
   broadcastAny({type:'chat',pid:myPid,name:myName,text:msg,color:myColorStr,t:Date.now()});
   petCelebrate();
+  if(currentJob&&currentJob.id==='friend'){
+    jobProgress=Math.min(jobProgress+1,jobTarget);
+    updateJobUI();
+    notify('💬 スタンプ '+jobProgress+'/'+jobTarget+'！');
+    if(jobProgress>=jobTarget) completeJob();
+  }
 }
 
 window.sendChat     = sendChat;
@@ -6004,6 +6430,9 @@ window.cycleOutfit = cycleOutfit;
 window.openStylePanel = openStylePanel;
 window.closeStylePanel = closeStylePanel;
 window.cyclePet = cyclePet;
+window.startRecommendedAdventure = startRecommendedAdventure;
+window.closeWelcomeCard = closeWelcomeCard;
+window.returnToPlaza = returnToPlaza;
 
 // =================== MAIN LOOP ===================
 let last=0;
